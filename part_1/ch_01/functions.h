@@ -10,10 +10,10 @@ T identity(const T& x)
 }
 
 /**
- * Returns `f(g(arg))`.
+ * Returns the composition of `f` and `g`.
  */
-template <typename F, typename G, typename T>
-T compose(F& f, G& g, const T& arg)
+template <typename T, typename F, typename G>
+auto compose(F f, G g)
 {
-    return f(g(arg));
+    return [f, g](const T& x) { return f(g(x)); };
 }

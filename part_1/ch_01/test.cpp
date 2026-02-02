@@ -11,7 +11,7 @@ public:
     {
     }
 
-    int operator()(int x)
+    int operator()(int x) const
     {
         return x + addend;
     }
@@ -28,8 +28,9 @@ void test_composition()
     AdditionFunctor add_two(2);
     auto add_three = [](int x) { return x + 3; };
 
-    assert(compose(add_two, add_three, 5) == 10);
+    auto add_five = compose<int>(add_two, add_three);
+    assert(add_five(0) == add_two(add_three(0)));
 
-    assert(compose(identity<int>, add_two, 1) == add_two(1));
-    assert(compose(add_two, identity<int>, 1) == add_two(1));
+    assert(compose<int>(identity<int>, add_two)(1) == add_two(1));
+    assert(compose<int>(add_two, identity<int>)(1) == add_two(1));
 }
